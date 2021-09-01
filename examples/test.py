@@ -1,3 +1,4 @@
+# -*- coding=utf-8 -*-
 import random
 import time
 
@@ -15,8 +16,8 @@ import numpy as np
 # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
 # Get a reference to webcam #0 (the default one)
-# video_capture = cv2.VideoCapture(0)
-video_capture = cv2.VideoCapture('rtsp://123:1234qwer@192.168.1.250:554/h265/ch35/main/av_stream')
+video_capture = cv2.VideoCapture(0)
+# video_capture = cv2.VideoCapture('rtsp://123:1234qwer@192.168.1.250:554/h265/ch35/main/av_stream')
 
 # Load a sample picture and learn how to recognize it.
 obama_image = face_recognition.load_image_file("1.png")
@@ -32,7 +33,7 @@ known_face_encodings = [
     biden_face_encoding
 ]
 known_face_names = [
-    "Cheng pengyuan",
+    u"Cheng py",
     "Joe Biden"
 ]
 
@@ -68,36 +69,36 @@ while True:
             name = "Unknown"
 
             # # If a match was found in known_face_encodings, just use the first one.
-            if True in matches:
-                first_match_index = matches.index(True)
-                name = known_face_names[first_match_index]
-                localtime = random.choice("abcdefsadsfgpispgipoasidf")
-                print(localtime)
+            # if True in matches:
+            #     first_match_index = matches.index(True)
+            #     name = known_face_names[first_match_index]
+            #     localtime = random.choice("abcdefsadsfgpispgipoasidf")
+            #     print(localtime)
 
             # Or instead, use the known face with the smallest distance to the new face
-            # face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-            # best_match_index = np.argmin(face_distances)
-            # if matches[best_match_index]:
-            #     name = known_face_names[best_match_index]
+            face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
+            best_match_index = np.argmin(face_distances)
+            if matches[best_match_index]:
+                name = known_face_names[best_match_index]
 
             face_names.append(name)
 
-    # process_this_frame = not process_this_frame
+    process_this_frame = not process_this_frame
 
-    if counter > 30:
-        process_this_frame = True
-        counter = 0
-    else:
-        counter += 1
-        process_this_frame = False
+    # if counter > 30:
+    #     process_this_frame = True
+    #     counter = 0
+    # else:
+    #     counter += 1
+    #     process_this_frame = False
 
     # Display the results
     for (top, right, bottom, left), name in zip(face_locations, face_names):
         # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-        top *= 4
-        right *= 4
-        bottom *= 4
-        left *= 4
+        # top *= 4
+        # right *= 4
+        # bottom *= 4
+        # left *= 4
 
         # Draw a box around the face
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
